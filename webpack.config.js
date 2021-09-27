@@ -28,52 +28,15 @@ module.exports = {
     rules: [
       {
         test: /\.s?css$/i,
-        oneOf: [
-          {
-            test: /\.module\.s?css$/,
-            use: [
-              MiniCssExtractPlugin.loader,
-              {
-                loader: 'css-loader',
-                options: {
-                  modules: true
-                }
-              },
-              postcssLoader,
-              'sass-loader'
-            ]
-          }, {
-            use: [
-              MiniCssExtractPlugin.loader,
-              'css-loader',
-              postcssLoader,
-              'sass-loader'
-            ]
-          }
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          postcssLoader,
+          'sass-loader'
         ]
       }, {
-        test: /\.(png|jpe?g|gif)$/i,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name() {
-              if(!isProduction) {
-                return '[path][name].[ext]';
-              }
-              return '[contenthash].[ext]';
-            },
-            publicPath: 'assets/',
-            outputPath: 'assets/'
-          }
-        }]
-      }, {
-        test: /.svg$/,
-        use: [{
-          loader: 'url-loader',
-          options: {
-            limit: 8192
-          }
-        }]
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        type: 'asset/resource'
       }, {
         test: /.js/,
         exclude: /node_modules/,
@@ -101,5 +64,5 @@ module.exports = {
       IS_PRODUCTION: isProduction
     })
   ],
-  devtool: 'eval-cheap-source-map'
+  devtool: 'source-map'
 }
